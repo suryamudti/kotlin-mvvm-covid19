@@ -36,6 +36,7 @@ class DashboardActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDashboardBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         initView()
     }
 
@@ -45,6 +46,8 @@ class DashboardActivity : BaseActivity() {
     }
 
     private fun initView() {
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.title = ""
         with(binding.recyclerView) {
             adapter = dailyAdapter
             setHasFixedSize(true)
