@@ -2,6 +2,7 @@ package id.rizmaulana.covid19.ui.overview
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import id.rizmaulana.covid19.R
 import id.rizmaulana.covid19.data.mapper.CovidDailyDataMapper
 import id.rizmaulana.covid19.data.mapper.CovidOverviewDataMapper
 import id.rizmaulana.covid19.data.mapper.CovidPinnedDataMapper
@@ -56,32 +57,32 @@ class DashboardViewModel(
             .switchIfEmpty(Observable.just(listOf()))
 
         Observable.combineLatest(
-                overviewObservable,
-                dailyObservable,
-                pinnedObservable,
-                Function3<List<OverviewItem>,
-                        List<DailyItem>,
-                        List<PinnedItem>,
-                        List<BaseViewItem>> { overviews, dailies, pinned ->
+            overviewObservable,
+            dailyObservable,
+            pinnedObservable,
+            Function3<List<OverviewItem>,
+                    List<DailyItem>,
+                    List<PinnedItem>,
+                    List<BaseViewItem>> { overviews, dailies, pinned ->
 
-                    val items: MutableList<BaseViewItem> = mutableListOf()
+                val items: MutableList<BaseViewItem> = mutableListOf()
 
-                    //GENERATE SCREEN POSITION HERE
-                    if(overviews.isNotEmpty()) items.addAll(overviews)
-                    if(pinned.isNotEmpty()) items.addAll(pinned)
+                //GENERATE SCREEN POSITION HERE
+                if (overviews.isNotEmpty()) items.addAll(overviews)
+                if (pinned.isNotEmpty()) items.addAll(pinned)
 
-                    if(dailies.isNotEmpty()) {
-                        items.add(TextItem("Daily Updates"))
-                        items.addAll(dailies)
-                    }
+                if (dailies.isNotEmpty()) {
+                    items.add(TextItem(R.string.daily_updates, R.string.show_graph))
+                    items.addAll(dailies)
+                }
 
-                    return@Function3 items.toList()
-                })
-        .observeOn(schedulerProvider.ui()) //go back to ui thread
-        .subscribe({
-            _liveItems.postValue(it)
-        }, {
-            _toastMessage.postValue(Constant.ERROR_MESSAGE)
-        }).addTo(compositeDisposable)
+                return@Function3 items.toList()
+            })
+            .observeOn(schedulerProvider.ui()) //go back to ui thread
+            .subscribe({
+                _liveItems.postValue(it)
+            }, {
+                _toastMessage.postValue(Constant.ERROR_MESSAGE)
+            }).addTo(compositeDisposable)
     }
 }
