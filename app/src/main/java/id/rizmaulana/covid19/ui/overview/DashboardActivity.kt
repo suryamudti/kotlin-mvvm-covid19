@@ -16,6 +16,7 @@ import id.rizmaulana.covid19.ui.adapter.viewholders.OverviewItem
 import id.rizmaulana.covid19.ui.adapter.viewholders.TextItem
 import id.rizmaulana.covid19.ui.base.BaseActivity
 import id.rizmaulana.covid19.ui.base.BaseViewItem
+import id.rizmaulana.covid19.ui.dailygraph.DailyGraphActivity
 import id.rizmaulana.covid19.ui.detail.DetailActivity
 import id.rizmaulana.covid19.util.CaseType
 import id.rizmaulana.covid19.util.ext.observe
@@ -86,7 +87,7 @@ class DashboardActivity : BaseActivity() {
                 Log.e("DailyItem", "DailyItem Click: ${viewItem.deltaConfirmed}")
             }
             is TextItem -> {
-
+                DailyGraphActivity.startActivity(this)
             }
         }
     }
